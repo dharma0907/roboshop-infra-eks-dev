@@ -20,6 +20,7 @@ resource "aws_instance" "web_server" {
     local.common_tags
   )
   }
+  
   tags = merge(
     {
         Name = "${local.common_name}-bastion"
