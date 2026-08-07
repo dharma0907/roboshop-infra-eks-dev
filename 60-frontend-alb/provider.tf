@@ -11,10 +11,10 @@ terraform {
 # state file code should be written inside provider so that it can understand that we are using resouces
 terraform {
   backend "s3" {
-    bucket       = "dharma-90"
-    key          = "roboshop-eks-bastion.tfstate"
-    region       = "us-east-1"
-    encrypt      = true
+    bucket = "dharma-90"
+    key    = "roboshop-eks-frontend-alb.tfstate"
+    region = "us-east-1"
+    encrypt = true
     use_lockfile = true # will enable locking
   }
 }

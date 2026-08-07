@@ -1,7 +1,7 @@
 ## ami id we are taking form aws account which is already exists
 data "aws_ami" "joindevops" {
-  most_recent      = true
-  owners           = ["973714476881"]
+  most_recent = true
+  owners      = ["973714476881"]
 
   filter {
     name   = "name"
@@ -29,9 +29,9 @@ data "aws_ami" "joindevops" {
 # }
 
 data "aws_ssm_parameter" "bastion_sg_id" {
-    name = "/${var.project}/${var.environment}/bastion_sg_id"
+  name = "/${var.project}/${var.environment}/bastion_sg_id"
 }
 
 data "aws_ssm_parameter" "public_subnet_ids" {
-    name = "/${var.project}/${var.environment}/public_subnet_ids"
+  name = "/${var.project}/${var.environment}/public_subnet_ids"
 }
