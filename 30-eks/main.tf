@@ -3,7 +3,7 @@ module "eks" {
   version = "~> 21.0"
 
   name               = local.common_name
-  kubernetes_version = "1.34"
+  kubernetes_version = var.eks_version
 
   # Mandatory
   addons = {
@@ -38,7 +38,7 @@ module "eks" {
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
     blue = {
-      create = var.enable_blue
+      create = var.enable_blue # in variaable.tf we defined it's value as tru so it is created by default
       kubernetes_version = var.blue_version
       # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
       ami_type       = "AL2023_x86_64_STANDARD"
@@ -60,39 +60,39 @@ module "eks" {
         http_tokens = "required"
       }
 
-    #   labels = {
-    #     nodegroup = "blue"
-    #   }
+      labels = {
+        nodegroup = "blue"
+      }
     }
 
-    # green = {
-    #   create = var.enable_green
-    #   kubernetes_version = var.green_version
-    #   # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
-    #   ami_type       = "AL2023_x86_64_STANDARD"
-    #   instance_types = ["t3.small","t3.medium","m5.xlarge","m4.xlarge"]
-    #   capacity_type = "SPOT"
+    green = {
+      create = var.enable_green
+      kubernetes_version = var.green_version
+      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+      ami_type       = "AL2023_x86_64_STANDARD"
+      instance_types = ["t3.small","t3.medium","m5.xlarge","m4.xlarge"]
+      capacity_type = "SPOT"
 
-    #   iam_role_additional_policies = {
-    #     EBS = ""
-    #     EFS = ""
-    #   }
-    #   min_size     = 2
-    #   max_size     = 2
-    #   desired_size = 2
+      iam_role_additional_policies = {
+        EBS = "arn:aws:iam::aws:policy/AmazonEBSCSIDriverPolicyV2"
+        EFS = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+      }
+      min_size     = 2
+      max_size     = 2
+      desired_size = 2
 
-    #   # This is required AWS LoadBalancerController
-    #   metadata_options = {
-    #     http_endpoint = "enabled"
-    #     http_put_response_hop_limit = 2
-    #     http_tokens = "required"
-    #   }
+       # This is required AWS LoadBalancerController
+       metadata_options = {
+        http_endpoint = "enabled"
+        http_put_response_hop_limit = 2
+        http_tokens = "required"
+      }
 
-    # #   labels = {
-    # #     nodegroup = "green"
-    # #   }
-    # }
+       labels = {
+         nodegroup = "green"
+       }
+     }
   }
 
-  #tags = local.common_tags
+  tags = local.common_tags
 }
