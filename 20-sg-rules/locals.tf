@@ -9,6 +9,10 @@ locals {
     bastion_sg_id = data.aws_ssm_parameter.bastion_sg_id.value
     eks_control_plane_sg_id = data.aws_ssm_parameter.eks_control_plane_sg_id.value
     eks_nodegroup_sg_id = data.aws_ssm_parameter.eks_nodegroup_sg_id.value
+
+    jenkins_sg_id = data.aws_ssm_parameter.jenkins_sg_id.value
+    jenkins_agent_sg_id = data.aws_ssm_parameter.jenkins_agent_sg_id.value
+    sonar_sg_id = data.aws_ssm_parameter.rabbitmq_sg_id.value
 }
 
 

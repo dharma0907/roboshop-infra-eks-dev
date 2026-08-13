@@ -15,7 +15,7 @@ resource "aws_ssm_parameter" "public_subnet_ids" {
 
 
 
-# now we will store private subent ids oinssm parameter store
+# now we will store private subent ids in ssm parameter store
 resource "aws_ssm_parameter" "private_subnet_ids" {
   name  = "/${var.project}/${var.environment}/private_subnet_ids"
   type  = "String"

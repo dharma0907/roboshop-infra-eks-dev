@@ -101,7 +101,7 @@ resource "aws_security_group_rule" "eks_control_plane_eks_nodegroup" {
   to_port           = 443
   protocol          = "tcp"
   source_security_group_id = local.eks_nodegroup_sg_id
-  security_group_id = local.eks_control_plane_sg_id
+  security_group_id = local.eks_control_plane_sg_id # this is for control plane security group, so control plane can comm with node group
 }
 
 #eks node from CIDR, so all pods will be able to communicate with control plane
@@ -112,5 +112,73 @@ resource "aws_security_group_rule" "eks_node_vpc" {
   to_port           = 0
   protocol          = "-1"
   cidr_blocks = ["10.0.0.0/16"]
-  security_group_id = local.eks_control_plane_sg_id
+  security_group_id = local.eks_nodegroup_sg_id # this isfor node group security group, all nodes can communicare each other
+}
+
+#jenkins should allow trafic from port 8080 and ssh on port 22
+resource "aws_security_group_rule" "jenkins_public" {
+  type = "ingress"
+  from_port = 8080
+  to_port = 8080
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = local.jenkins_sg_id
+
+}
+
+resource "aws_security_group_rule" "jenkins_ssh" {
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  #cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"]
+  security_group_id = local.jenkins_sg_id
+
+}
+
+# JENKINS AGENT SHOULD ACCEPT TRAFFIC FROM JENKINS
+resource "aws_security_group_rule" "jenkins_agent_jenkins" {
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  source_security_group_id = local.jenkins_sg_id # jenkins is source bcz jenkins to agne twe need connection
+  security_group_id = local.jenkins_agent_sg_id # agent
+
+}
+
+resource "aws_security_group_rule" "jenkins_agent_ssh" {
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  #cidr_blocks = ["0.0.0.0/0"]
+  cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"]
+  security_group_id = local.jenkins_agent_sg_id
+
+}
+
+
+
+# same way sonar SG rules we need to creare
+resource "aws_security_group_rule" "sonar_web" {
+  type = "ingress"
+  from_port = 9000
+  to_port = 9000
+  protocol = "tcp"
+  cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = local.sonar_sg_id
+
+}
+
+resource "aws_security_group_rule" "sonar_ssh" {
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  cidr_blocks = ["${chomp(data.http.my_public_ip.response_body)}/32"] # this fetch my public ip i.e my internet connected ip
+  #cidr_blocks = ["0.0.0.0/0"]
+  security_group_id = local.sonar_sg_id
+
 }
