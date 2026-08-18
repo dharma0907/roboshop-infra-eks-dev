@@ -51,3 +51,6 @@ install -m 0755 /tmp/k9s /usr/local/bin/k9s && rm /tmp/k9s
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4
 chmod 700 get_helm.sh
 ./get_helm.sh
+
+#trviy install
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.74.0

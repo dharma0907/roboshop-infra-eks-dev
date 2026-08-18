@@ -54,7 +54,7 @@ resource "aws_instance" "jenkins_agent" {
   )
 }
 
-resource "aws_instance" "sonarqube" {
+/*resource "aws_instance" "sonarqube" {
   count = var.sonar ? 1 : 0
   ami           = local.sonar_ami_id
   instance_type = "t3.large"
@@ -66,10 +66,10 @@ resource "aws_instance" "sonarqube" {
     volume_size = 20
     volume_type = "gp3" # or "gp2", depending on your preference
   } */
-  tags = merge(
+  /*tags = merge(
     local.common_tags,
     {
         Name = "${var.project}-${var.environment}-sonar"
     }
   )
-}
+}*/

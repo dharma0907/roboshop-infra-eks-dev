@@ -18,7 +18,7 @@ data "aws_ami" "joindevops" {
   }
 }
 
-data "aws_ami" "sonarqube" {
+/*data "aws_ami" "sonarqube" {
   most_recent = true
   owners      = ["679593333241"] # Solve DevOps
 
@@ -36,7 +36,7 @@ data "aws_ami" "sonarqube" {
     name   = "architecture"
     values = ["x86_64"]
   }
-}
+}*/
 
 data "aws_ssm_parameter" "public_subnet_ids" {
     name = "/${var.project}/${var.environment}/public_subnet_ids"
