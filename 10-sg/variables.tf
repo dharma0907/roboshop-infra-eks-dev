@@ -18,6 +18,7 @@ variable "sg_names" {
         "bastion",
         "eks_control_plane", #this we are required for secruity group of control plane
         "eks_nodegroup", #SG for node group, we are adding it here
-        "jenkins","jenkins-agent","sonar" # secruity groups for jenkins and sonar, withe these names only aws store value of SG in aws parameter
+        "jenkins","jenkins-agent","sonar", # secruity groups for jenkins and sonar, withe these names only aws store value of SG in aws parameter
+        "runner"
     ]
 }

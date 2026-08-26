@@ -13,6 +13,8 @@ locals {
     jenkins_sg_id = data.aws_ssm_parameter.jenkins_sg_id.value
     jenkins_agent_sg_id = data.aws_ssm_parameter.jenkins_agent_sg_id.value
     sonar_sg_id = data.aws_ssm_parameter.rabbitmq_sg_id.value
+
+    runner_sg_id = data.aws_ssm_parameter.runner_sg_id
 }
 
 
